@@ -1,9 +1,12 @@
+import { LogicButton } from '../LogicButton/LogicButton';
+
 interface DefaultButtonProps {
   label: string;
   color: 'red' | 'green' | 'blue' | 'yellow';
+  name: string;
 }
 
-export const DefaultButton = ({ label, color }: DefaultButtonProps) => {
+export const DefaultButton = ({ label, color, name }: DefaultButtonProps) => {
   const getColor = () => {
     switch (color) {
       case 'red':
@@ -23,8 +26,8 @@ export const DefaultButton = ({ label, color }: DefaultButtonProps) => {
   ].join(' ');
 
   return (
-    <div>
-      <button className={cn}>{label}</button>
-    </div>
+    <LogicButton name={name} className={cn}>
+      {label}
+    </LogicButton>
   );
 };

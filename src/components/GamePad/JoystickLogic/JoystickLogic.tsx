@@ -4,7 +4,6 @@ import {
   IJoystickUpdateEvent,
 } from 'react-joystick-component/build/lib/Joystick';
 import {
-  GamePadMessageType,
   useGamePad,
 } from '../../../providers/GamePadProvider';
 
@@ -13,13 +12,13 @@ interface JoystickLogicProps extends IJoystickProps {
 }
 
 export const JoystickLogic = ({ name, ...props }: JoystickLogicProps) => {
-  const { sendData } = useGamePad();
+  const { sendAxis } = useGamePad();
 
   const handleChange = (e: IJoystickUpdateEvent) => {
-    sendData({
+    sendAxis({
       name,
-      type: GamePadMessageType.AXIS,
-      value: [e.x || 0, e.y || 0],
+      x: e.x || 0,
+      y: e.y || 0,
     });
   };
 

@@ -11,13 +11,13 @@ export const GamePad = () => {
         <div className="mt-4 flex justify-evenly">
           <Draggable bounds=".gamepad">
             <div className="w-fit h-fit relative">
-              <ShoulderButton name="left_thumb" right={false} />
+              <ShoulderButton name="LEFT_SHOULDER" right={false} />
             </div>
           </Draggable>
 
           <Draggable bounds=".gamepad">
             <div className="w-fit h-fit relative">
-              <ShoulderButton name="right_thumb" right />
+              <ShoulderButton name="RIGHT_SHOULDER" right />
             </div>
           </Draggable>
         </div>
@@ -35,13 +35,13 @@ export const GamePad = () => {
           <div className="flex gap-8">
             <Draggable bounds=".gamepad">
               <div className="w-fit h-fit">
-                <ActionButton name="back" label="Back" />
+                <ActionButton name="BACK" label="Back" />
               </div>
             </Draggable>
 
             <Draggable bounds=".gamepad">
               <div className="w-fit h-fit">
-                <ActionButton name="start" label="Start" />
+                <ActionButton name="START" label="Start" />
               </div>
             </Draggable>
           </div>
@@ -51,26 +51,26 @@ export const GamePad = () => {
               <div className="flex justify-center">
                 <Draggable bounds=".gamepad">
                   <div className="w-fit h-fit">
-                    <DefaultButton name="y" label="Y" color="yellow" />
+                    <DefaultButton name="Y" label="Y" color="yellow" />
                   </div>
                 </Draggable>
               </div>
               <div className="flex justify-between gap-16">
                 <Draggable bounds=".gamepad">
                   <div className="w-fit h-fit">
-                    <DefaultButton name="x" label="X" color="blue" />
+                    <DefaultButton name="X" label="X" color="blue" />
                   </div>
                 </Draggable>
                 <Draggable bounds=".gamepad">
                   <div className="w-fit h-fit">
-                    <DefaultButton name="b" label="B" color="red" />
+                    <DefaultButton name="B" label="B" color="red" />
                   </div>
                 </Draggable>
               </div>
               <div className="flex justify-center">
                 <Draggable bounds=".gamepad">
                   <div className="w-fit h-fit">
-                    <DefaultButton name="a" label="A" color="green" />
+                    <DefaultButton name="A" label="A" color="green" />
                   </div>
                 </Draggable>
               </div>

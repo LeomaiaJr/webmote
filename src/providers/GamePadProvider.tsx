@@ -28,7 +28,7 @@ export function GamePadProvider({ children }: GamePadProviderProps) {
   const socketRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    socketRef.current = new WebSocket('ws://localhost:8080');
+    socketRef.current = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}`);
 
     socketRef.current.onopen = () => {
       console.log('Connected to WebSocket server');

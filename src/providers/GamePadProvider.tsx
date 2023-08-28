@@ -1,19 +1,25 @@
 import React, { createContext, useContext, useEffect, useRef } from 'react';
 
-// eslint-disable-next-line react-refresh/only-export-components
-export enum GamePadMessageType {
-  BUTTON = 'button',
-  AXIS = 'axis',
+import protobuf from 'protobufjs'
+import protocol from '../data/messages.proto?raw'
+
+const messages = protobuf.parse(protocol);
+const Update = messages.root.lookupType('webmote.Update');
+
+export interface ButtonUpdate {
+  name: string;
+  pressed: boolean;
 }
 
-export interface GamePadMessage {
-  type: GamePadMessageType;
+export interface AxisUpdate {
   name: string;
-  value: boolean | [number, number];
+  x: number;
+  y: number;
 }
 
 interface GamePadContextValue {
-  sendData: (data: GamePadMessage) => void;
+  sendButton: (data: ButtonUpdate) => void;
+  sendAxis: (data: AxisUpdate) => void;
 }
 
 const GamePadContext = createContext<GamePadContextValue>(
@@ -29,6 +35,7 @@ export function GamePadProvider({ children }: GamePadProviderProps) {
 
   useEffect(() => {
     socketRef.current = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}`);
+    socketRef.current.binaryType = 'arraybuffer';
 
     socketRef.current.onopen = () => {
       console.log('Connected to WebSocket server');
@@ -41,14 +48,30 @@ export function GamePadProvider({ children }: GamePadProviderProps) {
     };
   }, []);
 
-  const sendData = (data: GamePadMessage) => {
+  const sendButton = async (update: ButtonUpdate) => {
     if (socketRef.current) {
-      socketRef.current.send(JSON.stringify(data));
+      const message = Update.fromObject({
+        button: update
+      })
+
+      const buffer = Update.encode(message).finish();
+      socketRef.current.send(buffer);
     }
-  };
+  }
+
+  const sendAxis = async (update: AxisUpdate) => {
+    if (socketRef.current) {
+      const message = Update.fromObject({
+        axis: update
+      })
+
+      const buffer = Update.encode(message).finish();
+      socketRef.current.send(buffer);
+    }
+  }
 
   const contextValue: GamePadContextValue = {
-    sendData,
+    sendButton, sendAxis
   };
 
   return (

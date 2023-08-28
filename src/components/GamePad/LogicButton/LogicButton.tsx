@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import {
-  GamePadMessageType,
   useGamePad,
 } from '../../../providers/GamePadProvider';
 
@@ -10,13 +9,12 @@ interface LogicButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export const LogicButton = (props: LogicButtonProps) => {
-  const { sendData } = useGamePad();
+  const { sendButton } = useGamePad();
 
-  const handleButtonChange = (value: boolean) => {
-    sendData({
+  const handleButtonChange = (pressed: boolean) => {
+    sendButton({
       name: props.name,
-      type: GamePadMessageType.BUTTON,
-      value,
+      pressed,
     });
   };
 

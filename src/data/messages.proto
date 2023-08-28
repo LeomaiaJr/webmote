@@ -1,0 +1,42 @@
+package webmote;
+syntax = "proto3";
+
+enum Button {
+    START = 0;
+    BACK = 1;
+    LEFT_THUMB = 2;  
+    RIGHT_THUMB = 3;
+    LEFT_SHOULDER = 4; 
+    RIGHT_SHOULDER = 5;
+    GUIDE = 6;        
+    A = 7;
+    B = 8;            
+    X = 9;
+    Y = 10;
+}
+
+enum Axis {
+    left = 0;
+    right = 1;
+    leftTrigger = 2;
+    rightTrigger = 3;
+    dpad = 4;
+}
+
+message ButtonUpdate {
+    Button name = 0;
+    bool pressed = 1;
+}
+
+message AxisUpdate {
+    Axis name = 0;
+    float x = 1;
+    float y = 2;
+}
+
+message Update {
+    oneof update {
+        ButtonUpdate button = 0;
+        AxisUpdate axis = 1;
+    }
+}

@@ -1,11 +1,14 @@
 import { GamePad } from './components/GamePad/GamePad';
+import { ConnectionProvider } from './providers/ConnectionProvider';
 import { GamePadProvider } from './providers/GamePadProvider';
 
 function App() {
   return (
-    <GamePadProvider>
-      <GamePad />
-    </GamePadProvider>
+    <ConnectionProvider>
+      <GamePadProvider>
+        <GamePad />
+      </GamePadProvider>
+    </ConnectionProvider>
   );
 }
 

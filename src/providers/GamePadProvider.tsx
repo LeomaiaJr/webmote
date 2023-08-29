@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
-import protobuf from 'protobufjs'
-import protocol from '../data/messages.proto?raw'
+import protobuf from 'protobufjs';
+import protocol from '../data/messages.proto?raw';
+import { useConnection } from './ConnectionProvider';
 
 const messages = protobuf.parse(protocol);
 const Update = messages.root.lookupType('webmote.Update');
@@ -31,42 +32,27 @@ interface GamePadProviderProps {
 }
 
 export function GamePadProvider({ children }: GamePadProviderProps) {
-  const socketRef = useRef<WebSocket | null>(null);
-
-  useEffect(() => {
-    socketRef.current = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}`);
-    socketRef.current.binaryType = 'arraybuffer';
-
-    socketRef.current.onopen = () => {
-      console.log('Connected to WebSocket server');
-    };
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-      }
-    };
-  }, []);
+  const { send, isConnected } = useConnection();
 
   const sendButton = async (update: ButtonUpdate) => {
-    if (socketRef.current) {
+    if (isConnected) {
       const message = Update.fromObject({
         button: update
       })
 
       const buffer = Update.encode(message).finish();
-      socketRef.current.send(buffer);
+      send(buffer);
     }
   }
 
   const sendAxis = async (update: AxisUpdate) => {
-    if (socketRef.current) {
+    if (isConnected) {
       const message = Update.fromObject({
         axis: update
       })
 
       const buffer = Update.encode(message).finish();
-      socketRef.current.send(buffer);
+      send(buffer);
     }
   }
 
